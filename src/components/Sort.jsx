@@ -1,12 +1,17 @@
 import React from "react";
 
-function Sort() {
+function Sort({selectedTypeOfSort, onChangeTypeOfSort}) {
   const [activeList, setActiveList] = React.useState(false);
-  const [selectedTypeOfSort, setTypeOfSort] = React.useState(0);
-  const typesOfSort = ['популярности', 'цене', 'алфавиту'];
+  const typesOfSort = [ {name: 'популярности', type: 'rating'},
+                        {name: 'популярности убывание', type: '-rating'},  
+                        {name: 'цене', type: 'price'},
+                        {name: 'цене убывание', type: '-price'},
+                        {name: 'алфавиту', type: 'title'},
+                        {name: 'алфавиту убывание', type: '-title'},
+                      ];
 
   const selectTypeOfSort = (index) => {
-    setTypeOfSort(index);
+    onChangeTypeOfSort(index);
     setActiveList(false);
   }
 
@@ -26,19 +31,19 @@ function Sort() {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={() => setActiveList(!activeList)}>{typesOfSort[selectedTypeOfSort]}</span>
+          <span onClick={() => setActiveList(!activeList)}>{selectedTypeOfSort.name}</span>
         </div>
         {activeList &&
           <div className="sort__popup">
             <ul>
               {
-                typesOfSort.map((type, index) =>
+                typesOfSort.map((obj, index) =>
                 <li
-                  onClick={() => selectTypeOfSort(index)}
+                  onClick={() => selectTypeOfSort(obj)}
                   key={index} 
-                  className={selectedTypeOfSort === index ? 'active' : null}
+                  className={selectedTypeOfSort.type === obj.type ? 'active' : null}
                 >
-                  {type}
+                  {obj.name}
                 </li>)
               }
             </ul>
