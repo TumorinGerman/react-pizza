@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import {setSortName} from "../redux/slices/filterSlice";
 
-function Sort({selectedTypeOfSort, onChangeTypeOfSort}) {
+function Sort() {
+  const selectedTypeOfSort = useSelector((state) => state.filter.selectedTypeOfSort);
+  const dispatch = useDispatch();
   const [activeList, setActiveList] = React.useState(false);
   const typesOfSort = [ {name: 'популярности', type: 'rating'},
                         {name: 'популярности убывание', type: '-rating'},  
@@ -10,8 +14,8 @@ function Sort({selectedTypeOfSort, onChangeTypeOfSort}) {
                         {name: 'алфавиту убывание', type: '-title'},
                       ];
 
-  const selectTypeOfSort = (index) => {
-    onChangeTypeOfSort(index);
+  const selectTypeOfSort = (obj) => {
+    dispatch(setSortName(obj));
     setActiveList(false);
   }
 
