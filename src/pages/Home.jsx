@@ -48,6 +48,7 @@ const Home = () => {
                         return (
                             <PizzaBlock
                             key={obj.id}
+                            id={obj.id}
                             name={obj.title}
                             price={obj.price}
                             image={obj.imageUrl}

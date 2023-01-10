@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {setSortName} from "../redux/slices/filterSlice";
 
 function Sort() {
+  const sortRef = React.useRef();
   const selectedTypeOfSort = useSelector((state) => state.filter.selectedTypeOfSort);
   const dispatch = useDispatch();
   const [activeList, setActiveList] = React.useState(false);
@@ -19,8 +20,21 @@ function Sort() {
     setActiveList(false);
   }
 
+React.useEffect(() => {
+  const handleClickOnBody = (event) => {
+    if(!event.path.includes(sortRef.current)){
+      setActiveList(false);
+    }
+  }
+
+  document.body.addEventListener('click', handleClickOnBody)
+  return () => {
+    document.body.removeEventListener('click', handleClickOnBody);
+  };
+}, [])
+
     return (
-      <div className="sort">
+      <div ref={sortRef} className="sort">
         <div className="sort__label">
           <svg
             width="10"
