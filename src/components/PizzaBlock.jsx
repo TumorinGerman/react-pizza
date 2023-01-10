@@ -1,12 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {addProduct} from "../redux/slices/cartSlice"
+import { addProduct } from "../redux/slices/cartSlice"
 
 function PizzaBlock({id, name, price, image, sizes, types}) {
     const dispatch = useDispatch();
+    const cartProduct = useSelector((state) => state.cart.itemsInCart.find((obj) => obj.id === id));
     const [activeType, setActiveType] = React.useState(0);
     const [activeSize, setActiveSize] = React.useState(0);
     const typesArray = ['тонкое', 'традиционное'];
+    const addedProduct = cartProduct ? cartProduct.count : 0;
 
     const onClickAddProduct = () => {
         const product = {
@@ -56,7 +58,7 @@ function PizzaBlock({id, name, price, image, sizes, types}) {
                 />
                 </svg>
                 <span>Добавить</span>
-                <i>0</i>
+                <i>{addedProduct}</i>
                 </div>
             </div>
         </div>
