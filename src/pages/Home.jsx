@@ -3,6 +3,7 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Sceleton from "../components/Sceleton";
+import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import {setActiveCategory} from "../redux/slices/filterSlice";
 
@@ -19,14 +20,11 @@ const Home = () => {
         const sortBy = selectedTypeOfSort.type.replace('-', '');
         const order = selectedTypeOfSort.type.includes('-') ? 'asc' : 'desc';
         setLoading(false);
-        fetch(
+        axios.get(
             `https://63b68ed61907f863aaf9d6ee.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
             )
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setPizzas(data);
+            .then((res) => {
+                setPizzas(res.data);
                 setLoading(false);
                 window.scrollTo(0, 0);
             });
