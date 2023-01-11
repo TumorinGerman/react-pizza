@@ -7,12 +7,12 @@ function Sort() {
   const selectedTypeOfSort = useSelector((state) => state.filter.selectedTypeOfSort);
   const dispatch = useDispatch();
   const [activeList, setActiveList] = React.useState(false);
-  const typesOfSort = [ {name: 'популярности', type: 'rating'},
-                        {name: 'популярности убывание', type: '-rating'},  
-                        {name: 'цене', type: 'price'},
-                        {name: 'цене убывание', type: '-price'},
-                        {name: 'алфавиту', type: 'title'},
-                        {name: 'алфавиту убывание', type: '-title'},
+  const typesOfSort = [ {name: 'популярности возрастание', type: '-rating'},
+                        {name: 'популярности убывание', type: 'rating'},  
+                        {name: 'цене возрастание', type: '-price'},
+                        {name: 'цене убывание', type: 'price'},
+                        {name: 'алфавиту', type: '-title'},
+                        {name: 'алфавиту убывание', type: 'title'},
                       ];
 
   const selectTypeOfSort = (obj) => {
@@ -22,7 +22,7 @@ function Sort() {
 
 React.useEffect(() => {
   const handleClickOnBody = (event) => {
-    if(!event.path.includes(sortRef.current)){
+    if(!event.composedPath().includes(sortRef.current)){
       setActiveList(false);
     }
   }

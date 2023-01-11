@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   activeCategory: 0,
-  selectedTypeOfSort: { name: "популярности", type: "rating" },
+  selectedTypeOfSort: { name: "популярности убывание", type: "rating" },
 };
 
 export const filterSlice = createSlice({

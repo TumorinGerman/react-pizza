@@ -17,7 +17,7 @@ function PizzaBlock({id, name, price, image, sizes, types}) {
             price,
             image,
             type: typesArray[activeType],
-            size: activeSize,
+            size: sizes[activeSize],
         }
         dispatch(addProduct(product));
     }
@@ -43,7 +43,7 @@ function PizzaBlock({id, name, price, image, sizes, types}) {
                 </ul>
             </div>
             <div className="pizza-block__bottom">
-                <div className="pizza-block__price">от {price} ₽</div>
+                <div className="pizza-block__price">от {price} грн.</div>
                 <div onClick={onClickAddProduct} className="button button--outline button--add">
                 <svg
                     width="12"
