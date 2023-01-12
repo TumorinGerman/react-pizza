@@ -3,31 +3,32 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Sceleton from "../components/Sceleton";
-import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
-import {setActiveCategory} from "../redux/slices/filterSlice";
+import { setActiveCategory } from "../redux/slices/filterSlice";
+import {  fetchPizzas } from "../redux/slices/pizzasSlice"
 
 const Home = () => {
-    const [pizzas, setPizzas] = React.useState([]);
-    const [isLoading, setLoading] = React.useState(true);
 
     const activeCategory = useSelector((state) => state.filter.activeCategory);
     const selectedTypeOfSort = useSelector((state) => state.filter.selectedTypeOfSort);
+    const {products, fetchStatus} = useSelector((state) => state.pizzas);
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
+    const getPizzas = async () => {
         const category = activeCategory > 0 ? `category=${activeCategory}` : '';
         const sortBy = selectedTypeOfSort.type.replace('-', '');
         const order = selectedTypeOfSort.type.includes('-') ? 'asc' : 'desc';
-        setLoading(false);
-        axios.get(
-            `https://63b68ed61907f863aaf9d6ee.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
-            )
-            .then((res) => {
-                setPizzas(res.data);
-                setLoading(false);
-                window.scrollTo(0, 0);
-            });
+
+        dispatch(fetchPizzas({
+                category,
+                sortBy,
+                order,
+        }));
+        window.scrollTo(0, 0);
+    }
+
+    React.useEffect(() => {
+        getPizzas();
     }, [activeCategory, selectedTypeOfSort]);
 
     const onChangeCategory = (id) => {
@@ -41,10 +42,12 @@ const Home = () => {
                 <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-                {isLoading
+            {fetchStatus === 'error' ? (
+                <div className='content__error'>Ошибка загрузки товара.</div>
+            ) : (<div className="content__items">
+                    {fetchStatus === 'loading'
                     ? [...new Array(6)].map((item, index) => <Sceleton key={index} />)
-                    : pizzas.map((obj) => {
+                    : products.map((obj) => {
                         return (
                             <PizzaBlock
                             key={obj.id}
@@ -57,7 +60,8 @@ const Home = () => {
                             />
                         );
                     })}
-            </div>
+                </div>)
+            }
         </>
     )
 }
