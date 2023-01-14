@@ -39,7 +39,7 @@ body {
   &__items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   &__top {
@@ -63,6 +63,35 @@ body {
 .container {
   width: $container-width;
   margin: 0 auto;
+
+  &__one {
+    h2 {
+      font-size:  calc(1em + 3vw);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .description {
+      &__img {
+        img {
+          display: block;
+          max-width: 100%;
+          max-height: 100%;
+          margin: 0 auto;
+        }
+      }
+      &__text {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        q {
+          text-align: justify;
+          font-size: 20px;
+        }
+
+      }
+    }
+  }
 
   &--cart {
     max-width: 820px;
