@@ -5,6 +5,15 @@ import { useSelector } from "react-redux";
 function Header() {
   const { totalPrice, itemsInCart } = useSelector((state) => state.cart);
   const totalCount = itemsInCart.reduce((sum, obj) => sum + obj.count, 0);
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const cartToJson = JSON.stringify(itemsInCart);
+      localStorage.setItem("cartOfPizzas", cartToJson);
+    }
+    isMounted.current = true;
+  }, [itemsInCart]);
 
   return (
     <div className="header">
